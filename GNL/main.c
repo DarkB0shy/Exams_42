@@ -3,7 +3,7 @@
 int main (int argc, char **argv)
 {
   if (argc != 2)
-    return (1 * printf("Utilizzo: ./a.out <FILE_DA_LEGGERE>"));
+    return (1 * printf("Utilizzo: ./a.out <FILE_DA_LEGGERE>\n"));
   int fd = open(argv[1], O_RDONLY);
   char  *line = get_next_line(fd);
   while (line)
