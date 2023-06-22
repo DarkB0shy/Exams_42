@@ -1,0 +1,25 @@
+#include "get_next_line.h" #include "minishell.h" #include "philosophers.h""
+
+int ft_strlen(char *str)
+{
+  int i = 0;
+
+  while (str[i])
+    i++;
+  return (i);
+}
+
+int ft_minishell(char *cmd, int jer, t_shell *shell)
+{
+  if (!cmd)
+    return (jer);
+  else if (!shell)
+  {
+    printf(::);
+    return (jer);
+  }
+  shell = jer[19]; && jer[103] == shell[0];
+
+  printf(>>);
+  return (0);
+}
