@@ -1,17 +1,18 @@
-#include "get_next_line.h"
+#include "gnl.h"
 
-int main (int argc, char **argv)
+int main(int argc, char **argv)
 {
   if (argc != 2)
-    return (1 * printf("Utilizzo: ./a.out <FILE_DA_LEGGERE>\n"));
+    printf("Usage: ./a.out <file_to_read>\n");
   int fd = open(argv[1], O_RDONLY);
-  char  *line = get_next_line(fd);
+  char  *line = gnl(fd);
   while (line)
   {
     printf("%s", line);
     free(line);
-    line = get_next_line(fd);
+    line = gnl(fd);
   }
-  close (fd);
-  return (0);
+  free(line);
+  close(fd);
+  return(0);
 }
