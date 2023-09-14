@@ -2,15 +2,15 @@
 
 char    *gnl(int fd)
 {
-  static int max_buffer_pos = 0;
-  static int buffer_pos = -1;
-  static char buffer[B_S];
-  char *line = NULL;
-  int   line_pos = 0;
+  static char   buffer[B_S];
+  static int    max_buffer_pos = 0;
+  static int    buffer_pos = -1;
+  char          *line;
+  int           line_pos = 0;
 
-  if (B_S < 1 || fd >= 1024 || fd < 1)
+  if (B_S < 1 || fd == -1)
     return (NULL);
-  if (buffer_pos == -1 || buffer_pos == max_buffer_pos)
+  if (buffer_pos == max_buffer_pos || buffer_pos == -1)
   {
     max_buffer_pos = read(fd, &buffer, B_S);
     buffer_pos = 0;
@@ -24,8 +24,6 @@ char    *gnl(int fd)
     line[line_pos++] = buffer[buffer_pos++];
     if (line[line_pos - 1] == '\n')
       break;
-    if (buffer_pos == max_buffer_pos)
-      break;
   }
   line[line_pos] = '\0';
   return (line);
@@ -34,11 +32,11 @@ char    *gnl(int fd)
 int main (int argc, char **argv)
 {
   if (argc != 2)
-    printf("Nope");
+    printf("No Johnny");
   else
   {
     int fd = open(argv[1], O_RDONLY);
-    char *str = gnl(fd);
+    char    *str = gnl(fd);
     while (str)
     {
       printf("%s", str);
