@@ -2,13 +2,13 @@
 
 char    *gnl(int fd)
 {
-  static char   buffer[B_S];
-  static int    buffer_pos = -1;
-  static int    max_buffer_pos = 0;
-  char  *line = NULL;
+  static int max_buffer_pos = 0;
+  static int buffer_pos = -1;
+  static char buffer[B_S];
+  char *line = NULL;
   int   line_pos = 0;
 
-  if (B_S < 1 || fd < 0 || fd >= 1024)
+  if (B_S < 1 || fd >= 1024 || fd < 1)
     return (NULL);
   if (buffer_pos == -1 || buffer_pos == max_buffer_pos)
   {
@@ -17,7 +17,7 @@ char    *gnl(int fd)
   }
   if (max_buffer_pos < 1)
     return (NULL);
-  line = malloc (sizeof(char) * (max_buffer_pos + 1));
+  line = malloc(sizeof(char) * (1 + max_buffer_pos));
   line[line_pos] = '\0';
   while (buffer_pos < max_buffer_pos)
   {
@@ -25,11 +25,7 @@ char    *gnl(int fd)
     if (line[line_pos - 1] == '\n')
       break;
     if (buffer_pos == max_buffer_pos)
-    {
-      max_buffer_pos = read(fd, &buffer, B_S);
-      buffer_pos = 0;
       break;
-    }
   }
   line[line_pos] = '\0';
   return (line);
@@ -38,20 +34,19 @@ char    *gnl(int fd)
 int main (int argc, char **argv)
 {
   if (argc != 2)
-    printf("Insert the file to read line per line\n");
+    printf("Nope");
   else
-  { 
+  {
     int fd = open(argv[1], O_RDONLY);
-    char *line = gnl(fd);
-    while (line)
+    char *str = gnl(fd);
+    while (str)
     {
-      printf("%s", line);
-      free(line);
-      line = gnl(fd);
+      printf("%s", str);
+      free(str);
+      str = gnl(fd);
     }
-    free(line);
+    free(str);
     close(fd);
-
   }
   printf("\n");
   return (0);
